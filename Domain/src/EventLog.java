@@ -11,7 +11,7 @@ public class EventLog {
     }
 
     public void addEvent(Event ev){
-        if(ev != null){
+        if (ev != null){
             eventList.add(ev);
         }
     }
