@@ -38,6 +38,25 @@ public class Application {
 
     public boolean checkFullDetails(String fullName, String password, String mail, String country,
                                     String phoneNumber, Date dateOfBirth, String training){
+        if (fullName == "" || password == "" || mail == "" || country == "" || phoneNumber == "" ||
+                training == "" || dateOfBirth == null){
+            return false;
+        }
+
+        if (!mail.contains("@") || !mail.contains(".com")){
+            return false;
+        }
+
+        if (password.length() <6) {
+            return false;
+        }
+        Date dateToday = new Date();
+        if (dateOfBirth.after(dateToday)){
+            return false;
+        }
+        if (phoneNumber.length() < 10){
+            return false;
+        }
         return true;
     }
 
