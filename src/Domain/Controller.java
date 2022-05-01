@@ -1,22 +1,20 @@
 package Domain;
 
-import java.util.Date;
 
+import java.util.Date;
+import Data.DataController;
 public class Controller {
     public boolean check (String mail, String pass){
-        //check in DB
-        //if exist:
-        return true;
-        //else return false
+        return DataController.getInstance().checkExist(mail,pass);
     }
 
     public void setLogin(String mail){
-        //get user from DB
-        //user.setLoggedin(true);
+        DataController.getInstance().loggedIn(mail);
     }
 
     public boolean checkMail(String mail) {
-        return true;
+
+        return DataController.getInstance().checkExist(mail);
     }
 
     public Referee createReferee(String fullName, String password, String mail, String country, String phoneNumber, Date dateOfBirth, String training) {
@@ -24,22 +22,26 @@ public class Controller {
     }
 
     public void saveRefereeData(Referee referee) {
-        //save in DB
+        DataController.getInstance().saveRef(referee);
     }
 
-    public boolean checkPolicy(String gameID, String stadium) {
-        //get policy
-        //if (policy =="0"){
-            //get teams
-            //if (team)
+    public boolean checkPolicy(String gameID, String stadium) { //not in DB?
         return true;
     }
 
     public boolean checkInfo(Referee referee, String gameID, Date date, String stadium) {
+        // check Referee exist -db
+        //check game exist - db
+        //check Date - not in db
+        //check stadium - ? maybe in teams that are in the game teams array?
         return true;
     }
 
     public void updateGame(Referee referee, String gameID, Date date, String stadium) {
+        //update game object
+        //call DBController to update game fields in the DB
+
+
     }
 }
 
