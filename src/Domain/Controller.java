@@ -2,7 +2,6 @@ package Domain;
 
 import java.util.Date;
 
-import Data.DBConnector;
 import Data.DataController;
 public class Controller {
     public boolean check (String mail, String pass){
@@ -51,7 +50,7 @@ public class Controller {
 
     public void updateGame(Referee referee, String gameID, Date date, String stadium) {
         //call DBController to update game fields in the DB
-        DataController.getInstance().update(gameID,date,stadium);
+        DataController.getInstance().updateGame(gameID,date,stadium);
         //call DBController to update ref-game table
         DataController.getInstance().updateGameRef(gameID,referee);
 

@@ -18,5 +18,7 @@ public class Referee extends Subscriber {
         games.add(game);
     }
 
-
+    public String getTraining() {
+        return training;
+    }
 }
