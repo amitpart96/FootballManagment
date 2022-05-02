@@ -2,9 +2,6 @@ package Data;
 import java.sql.*;
 
 public class DBConnector {
-    public static final String URL = "jdbc:mysql://localhost:3306/";
-    public static final String USER = "root";
-    public static final String PASS = "root";
 
     private static final DBConnector instance = null;
 
@@ -28,13 +25,14 @@ public class DBConnector {
      */
     public static Connection getConnection() {
         try {
-            Connection conn =
-                    DriverManager.getConnection("jdbc:mysql://localhost:3306/example",
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/",
                             "root", "root");
 
             return conn;
         } catch (SQLException ex) {
-            System.out.println("Unable to connect the data base");
+            //System.out.println("Unable to connect the data base");
+            System.out.println(ex.toString());
+
             return null;
         }
     }
