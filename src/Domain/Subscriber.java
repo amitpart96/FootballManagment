@@ -28,4 +28,8 @@ public class Subscriber {
     public void setLoggedin(boolean loggedin) {
         this.loggedin = loggedin;
     }
+
+    public String getMail(){
+        return mail;
+    }
 }

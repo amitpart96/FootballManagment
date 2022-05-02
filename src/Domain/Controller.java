@@ -1,7 +1,8 @@
 package Domain;
 
-
 import java.util.Date;
+
+import Data.DBConnector;
 import Data.DataController;
 public class Controller {
     public boolean check (String mail, String pass){
@@ -9,6 +10,7 @@ public class Controller {
     }
 
     public void setLogin(String mail){
+
         DataController.getInstance().loggedIn(mail);
     }
 
@@ -30,17 +32,28 @@ public class Controller {
     }
 
     public boolean checkInfo(Referee referee, String gameID, Date date, String stadium) {
+        // check Date - not in db
+        if(date.before(new Date())){
+            return false;
+        }
         // check Referee exist -db
-        //check game exist - db
-        //check Date - not in db
-        //check stadium - ? maybe in teams that are in the game teams array?
+        if(!DataController.getInstance().checkExist(referee)){
+            return false;
+        }
+        // check game exist - db
+        if(!DataController.getInstance().checkExistGame(gameID)){
+            return false;
+        }
+        // check stadium - ? maybe in policy?!
+
         return true;
     }
 
     public void updateGame(Referee referee, String gameID, Date date, String stadium) {
-        //update game object
         //call DBController to update game fields in the DB
-
+        DataController.getInstance().update(gameID,date,stadium);
+        //call DBController to update ref-game table
+        DataController.getInstance().updateGameRef(gameID,referee);
 
     }
 }
