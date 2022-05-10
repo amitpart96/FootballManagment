@@ -23,12 +23,11 @@ public class DataController {
 
     public void CreateTables(){
         try {
-
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
+            String sql="";
 
-            //syntax is applied on SQL Server / Oracle / MS Access
-            String sql="CREATE TABLE Subscribers (" +
+            sql="CREATE TABLE Subscribers (" +
                     "Mail varchar(255) NOT NULL PRIMARY KEY ," +
                     "FullName varchar(255)," +
                     "Password varchar(255)," +
@@ -41,8 +40,9 @@ public class DataController {
             stmt.execute(sql);
 
             sql="CREATE TABLE Referees (" +
-                    "Mail varchar(255) NOT NULL FOREIGN KEY REFERENCES Subscribers(Mail)," +
-                    "trailing varchar(255)," +
+                    "Mail varchar(255) NOT NULL ," +
+                    "Trailing varchar(255)," +
+                    "FOREIGN KEY (Mail) REFERENCES Subscribers(Mail)"+
                     "); ";
 
             stmt.execute(sql);
@@ -51,7 +51,7 @@ public class DataController {
                     "GameID integer NOT NULL PRIMARY KEY ," +
                     "Stadium varchar(255)," +
                     "Result varchar(255)," +
-                    "Date DATETIME " +
+                    "Date DATETIME, " +
                     "EventLog integer " +
                     "); ";
 
@@ -82,12 +82,34 @@ public class DataController {
             stmt.execute(sql);
 
         } catch (java.sql.SQLException e) {
+            System.out.println("createTables: ");
             System.out.println(e.toString());
         }
     }
 
     public void saveTestObjects(){
-        //test objects to insert inside the table
+        try {
+
+            Connection connection = DBConnector.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
+            String sql="";
+            sql="INSERT INTO Subscribers (Mail,Password)" +
+                    "VALUES('test1@gmail.com','123456');";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Games (GameID)" +
+                "VALUES(1234);";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Games (GameID)" +
+                "VALUES(1234);";
+
+            stmt.execute(sql);
+
+        } catch (java.sql.SQLException e) {
+            System.out.println("saveTestObjects: ");
+            System.out.println(e.toString());
+        }
     }
 
 
@@ -107,6 +129,7 @@ public class DataController {
             }
 
         } catch (java.sql.SQLException e) {
+            System.out.println("checkExist ref: ");
             System.out.println(e.toString());
         }
         return false;
@@ -121,12 +144,15 @@ public class DataController {
             String sql = "SELECT Password FROM Subscribers WHERE Mail='" + mail + "';";
 
             ResultSet rs = stmt.executeQuery(sql);
-
-            if (rs.getString("Password").equals(pass)){
-                return true;
+            if(rs.next()){
+                if (rs.getString(1).equals(pass)){
+                    return true;
+                }
             }
+
         }
         catch (java.sql.SQLException e) {
+            System.out.println("checkExist password: ");
             System.out.println(e.toString());
         }
         return false;
@@ -146,6 +172,7 @@ public class DataController {
             }
         }
         catch (java.sql.SQLException e) {
+            System.out.println("checkExist mail: ");
             System.out.println(e.toString());
         }
         return false;
@@ -159,10 +186,12 @@ public class DataController {
 
             String sql = "UPDATE Subscribers SET LoggedIn='true' WHERE Mail='" + mail + "';";
 
-           stmt.executeQuery(sql);
+           stmt.execute(sql);
+           System.out.println("done");
 
         }
         catch (java.sql.SQLException e) {
+            System.out.println("loggedIn: ");
             System.out.println(e.toString());
         }
 
@@ -172,21 +201,22 @@ public class DataController {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
-
-            String sql = "INSERT INTO Subscribers"+
+            String sql="";
+            sql = "INSERT INTO Subscribers (Mail,FullName,Password,Country,PhoneNumber,LoggedIn)"+
                     "VALUES ('"+referee.getMail()+"','"+referee.getFullName()+"','"+referee.getPassword()+"'," +
-                    "'"+referee.getCountry()+"','"+referee.getPhoneNumber()+"','"+referee.getDateOfBirth()+"" +
-                    "','false');";
+                    "'"+referee.getCountry()+"','"+referee.getPhoneNumber()+"','false');";
 
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
 
-            sql = "INSERT INTO Referees"+
+            sql = "INSERT INTO Referees (Mail,Training)"+
                     "VALUES ('"+referee.getMail()+"','"+referee.getTraining()+"');";
 
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
+            System.out.println("done");
 
         }
         catch (java.sql.SQLException e) {
+            System.out.println("saveRef: ");
             System.out.println(e.toString());
         }
 
@@ -206,6 +236,7 @@ public class DataController {
             }
         }
         catch (java.sql.SQLException e) {
+            System.out.println("checkExistGame: ");
             System.out.println(e.toString());
         }
         return false;
@@ -217,14 +248,16 @@ public class DataController {
             Statement stmt = connection.createStatement();
 
             String sql = "UPDATE Games " +
-                    "SET Date='"+date+"', Stadium='"+stadium+"'" +
+                    "SET Stadium='"+stadium+"'" +
                     "WHERE GameID='" + gameID + "';";
 
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
+            System.out.println("update game - done");
 
 
         }
         catch (java.sql.SQLException e) {
+            System.out.println("updateGame: ");
             System.out.println(e.toString());
         }
     }
@@ -236,13 +269,15 @@ public class DataController {
             Statement stmt = connection.createStatement();
 
             String sql = "INSERT INTO GamesAndRefs " +
-                    "VALUES ('"+gameID+"', '"+referee.getMail()+"';";
+                    "VALUES ("+gameID+", '"+referee.getMail()+"');";
 
-            stmt.executeQuery(sql);
+            stmt.execute(sql);
+            System.out.println("done");
 
 
         }
         catch (java.sql.SQLException e) {
+            System.out.println("updateGameRef: ");
             System.out.println(e.toString());
         }
     }
