@@ -43,4 +43,8 @@ public class Game {
     public void setDate(Date date){
         this.date=date;
     }
+
+    public String getId() {
+        return id;
+    }
 }

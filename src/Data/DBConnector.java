@@ -25,7 +25,7 @@ public class DBConnector {
      */
     public static Connection getConnection() {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/",
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306",
                             "root", "root");
 
             return conn;
