@@ -49,7 +49,7 @@ public class DataLayerTest {
     @Test
     @DisplayName("Check game not exist")
     public void GameNotExist() {
-        assertEquals(false, DataController.getInstance().checkExistGame("1222"));
+        assertFalse(DataController.getInstance().checkExistGame("1222"));
     }
 
     @Test
