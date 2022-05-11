@@ -26,12 +26,16 @@ public class Controller {
         DataController.getInstance().saveRef(referee);
     }
 
-    public boolean checkPolicy(String gameID, String stadium) { //not in DB?
+    public boolean checkPolicy(String gameID, String stadium) {
+
         return true;
     }
 
     public boolean checkInfo(Referee referee, String gameID, Date date, String stadium) {
         // check Date - not in db
+        if(referee==null || gameID=="" || date==null || stadium==""){
+            return false;
+        }
         if(date.before(new Date())){
             return false;
         }

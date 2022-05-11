@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -75,7 +76,13 @@ class ApplicationTest {
     @Test
     @DisplayName("referee does not exist")
     void refereeDoesNotExist(){
-        Date date = new Date();
+        Calendar c1=Calendar.getInstance();
+        c1.set(Calendar.MONTH, 1);
+        c1.set(Calendar.DATE, 1);
+        c1.set(Calendar.YEAR, 2030);
+
+        // creating a date object with specified time.
+        Date date = c1.getTime();
         Referee referee = new Referee("Maxim","123456","maxim@gmail.com","Israel","0546666666",date,"Secondary");
 
         //delete referee from DB
@@ -91,9 +98,15 @@ class ApplicationTest {
     @Test
     @DisplayName("game assignment success")
     void gameAssignmentSuccess(){
-        Date date = new Date();
-        Referee referee = new Referee("Lidor Avital","111111","lidor@gmail.com",
-                "Sudan","0541111111",date,"main");
+        Calendar c1=Calendar.getInstance();
+        c1.set(Calendar.MONTH, 1);
+        c1.set(Calendar.DATE, 1);
+        c1.set(Calendar.YEAR, 2030);
+
+        // creating a date object with specified time.
+        Date date = c1.getTime();
+        Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
+                "Russia","0541111111",date,"main");
 
         assertEquals(true,application.gameAssignment("1234",referee,"Tedi",date));
     }

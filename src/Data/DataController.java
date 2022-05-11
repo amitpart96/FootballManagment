@@ -96,10 +96,16 @@ public class DataController {
                     "VALUES('test1@gmail.com','123456');";
             stmt.execute(sql);
 
+            sql="INSERT INTO Referees (Mail,training)" +
+                    "VALUES('yuval@gmail.com','running');";
+            stmt.execute(sql);
+
             sql="INSERT INTO Games (GameID)" +
                 "VALUES(1234);";
             stmt.execute(sql);
 
+            sql="INSERT INTO Games (GameID)" +
+                    "VALUES(0);";
             stmt.execute(sql);
 
         } catch (java.sql.SQLException e) {
@@ -191,6 +197,8 @@ public class DataController {
         }
 
     }
+
+
     //save referee object in data base
     public boolean saveRef(Referee referee) {
         try{

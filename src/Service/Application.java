@@ -73,13 +73,7 @@ public class Application {
     }
 
     public boolean gameAssignment(String gameID, Referee referee, String stadium, Date date){
-        //check Date
-        //receive game from data base
-        //check referee in data base - exist only
-        //check policy - maybe enum?
-        //update the object fields
-        //save to data base the game object
-        //save to data base the referee object - if exist then override - maybe update only game
+
         if (!controller.checkInfo(referee, gameID, date, stadium)){
             return false;
         }
