@@ -27,7 +27,7 @@ public class DataController {
             Statement stmt = connection.createStatement();
             String sql="";
 
-            sql="CREATE TABLE Subscribers (" +
+            sql="CREATE TABLE IF NOT EXISTS Subscribers (" +
                     "Mail varchar(255) NOT NULL PRIMARY KEY ," +
                     "FullName varchar(255)," +
                     "Password varchar(255)," +
@@ -39,15 +39,14 @@ public class DataController {
 
             stmt.execute(sql);
 
-            sql="CREATE TABLE Referees (" +
-                    "Mail varchar(255) NOT NULL ," +
-                    "Trailing varchar(255)," +
-                    "FOREIGN KEY (Mail) REFERENCES Subscribers(Mail)"+
+            sql="CREATE TABLE IF NOT EXISTS Referees (" +
+                    "Mail varchar(255) NOT NULL PRIMARY KEY," +
+                    "Training varchar(255)" +
                     "); ";
 
             stmt.execute(sql);
 
-            sql="CREATE TABLE Games (" +
+            sql="CREATE TABLE IF NOT EXISTS Games (" +
                     "GameID integer NOT NULL PRIMARY KEY ," +
                     "Stadium varchar(255)," +
                     "Result varchar(255)," +
@@ -57,7 +56,7 @@ public class DataController {
 
             stmt.execute(sql);
 
-            sql="CREATE TABLE Teams (" +
+            sql="CREATE TABLE IF NOT EXISTS Teams (" +
                     "Name varchar(255) NOT NULL PRIMARY KEY ," +
                     "Stadium varchar(255)," +
                     "Coach varchar(255)," +
@@ -66,17 +65,17 @@ public class DataController {
 
             stmt.executeUpdate(sql);
 
-            sql="CREATE TABLE GamesAndRefs (" +
-                    "GameID integer NOT NULL FOREIGN KEY REFERENCES Games(GameID) ," +
-                    "RefereeMail varchar(255) NOT NULL FOREIGN KEY REFERENCES Subscribers(Mail)" +
+            sql="CREATE TABLE IF NOT EXISTS GamesAndRefs (" +
+                    "GameID integer NOT NULL PRIMARY KEY," +
+                    "RefereeMail varchar(255) NOT NULL " +
                     "); ";
 
             stmt.execute(sql);
 
-            sql="CREATE TABLE GamesAndTeams (" +
-                    "GameID integer NOT NULL FOREIGN KEY REFERENCES Games(GameID)," +
-                    "Team1Name varchar(255) NOT NULL FOREIGN KEY REFERENCES Teams(Name)," +
-                    "Team2Name varchar(255) NOT NULL FOREIGN KEY REFERENCES Teams(Name)" +
+            sql="CREATE TABLE IF NOT EXISTS GamesAndTeams (" +
+                    "GameID integer NOT NULL PRIMARY KEY ," +
+                    "Team1Name varchar(255) NOT NULL ," +
+                    "Team2Name varchar(255) NOT NULL" +
                     "); ";
 
             stmt.execute(sql);
@@ -100,9 +99,6 @@ public class DataController {
             sql="INSERT INTO Games (GameID)" +
                 "VALUES(1234);";
             stmt.execute(sql);
-
-            sql="INSERT INTO Games (GameID)" +
-                "VALUES(1234);";
 
             stmt.execute(sql);
 
@@ -187,7 +183,6 @@ public class DataController {
             String sql = "UPDATE Subscribers SET LoggedIn='true' WHERE Mail='" + mail + "';";
 
            stmt.execute(sql);
-           System.out.println("done");
 
         }
         catch (java.sql.SQLException e) {
@@ -197,7 +192,7 @@ public class DataController {
 
     }
     //save referee object in data base
-    public void saveRef(Referee referee) {
+    public boolean saveRef(Referee referee) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -212,13 +207,14 @@ public class DataController {
                     "VALUES ('"+referee.getMail()+"','"+referee.getTraining()+"');";
 
             stmt.execute(sql);
-            System.out.println("done");
+            return true;
 
         }
         catch (java.sql.SQLException e) {
             System.out.println("saveRef: ");
             System.out.println(e.toString());
         }
+        return false;
 
     }
     // check in games table - does we have a instance with such id
@@ -242,7 +238,7 @@ public class DataController {
         return false;
     }
     //update the game record with date and stadium
-    public void updateGame(String gameID, Date date, String stadium) {
+    public boolean updateGame(String gameID, Date date, String stadium) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -252,18 +248,18 @@ public class DataController {
                     "WHERE GameID='" + gameID + "';";
 
             stmt.execute(sql);
-            System.out.println("update game - done");
-
+            return true;
 
         }
         catch (java.sql.SQLException e) {
             System.out.println("updateGame: ");
             System.out.println(e.toString());
         }
+        return false;
     }
 
     //insert to game-ref table
-    public void updateGameRef(String gameID, Referee referee) {
+    public boolean updateGameRef(String gameID, Referee referee) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -272,13 +268,47 @@ public class DataController {
                     "VALUES ("+gameID+", '"+referee.getMail()+"');";
 
             stmt.execute(sql);
-            System.out.println("done");
-
+            return true;
 
         }
         catch (java.sql.SQLException e) {
             System.out.println("updateGameRef: ");
             System.out.println(e.toString());
         }
+        return false;
     }
+
+    public void DropAllTables() {
+        try {
+            Connection connection = DBConnector.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
+            String sql="";
+            sql = "DROP TABLE IF EXISTS GamesAndRefs;";
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS Subscribers;";
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS Games;";
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS Referees;";
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS Teams;";
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS GamesAndTeams;";
+            stmt.execute(sql);
+
+        }
+        catch (java.sql.SQLException e) {
+                System.out.println("DropAllTables: ");
+                System.out.println(e.toString());
+            }
+
+        }
+
+
+
 }
