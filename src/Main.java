@@ -10,16 +10,16 @@ public class Main {
         //All tests passed - need to Drop all tables to do them again
         //no Foreign key in all tables
         //no date at all tables
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-
-        // creating a date object with specified time.
-        Date date = c1.getTime();
-        Referee ref=new Referee("Lidor Avital","111111","lidor@gmail.com",
-                "Sudan","0541111111",date,"main");
-        System.out.println(DataController.getInstance().checkExist(ref));
+//        Calendar c1=Calendar.getInstance();
+//        c1.set(Calendar.MONTH, 1);
+//        c1.set(Calendar.DATE, 1);
+//        c1.set(Calendar.YEAR, 2030);
+//
+//        // creating a date object with specified time.
+//        Date date = c1.getTime();
+//        Referee ref=new Referee("Lidor Avital","111111","lidor@gmail.com",
+//                "Sudan","0541111111",date,"main");
+//        System.out.println(DataController.getInstance().checkExist(ref));
 
 //        DataController.getInstance().CreateTables();// create the tables pass
 //        DataController.getInstance().saveTestObjects(); //enter the objects to the dataBase pass

@@ -17,10 +17,11 @@ public class League {
     }
 
     public void addGame(Game g){
-        games.add(g); //לבדוק שלא null.
+        games.add(g);
+
     }
     public void addReferee(Referee r){
-        referees.add(r); //לבדוק שלא null.
+        referees.add(r);
     }
 
     public ArrayList<Game> getGames() {
@@ -28,6 +29,7 @@ public class League {
     }
 
     public void defineNewPolicy(String pol) {
-        policy = pol; //לבדוק שלא null.
+        policy = pol;
+
     }
 }

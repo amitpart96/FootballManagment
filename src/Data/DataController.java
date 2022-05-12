@@ -10,6 +10,7 @@ public class DataController {
     private DBConnector dbc;
 
     private DataController(){
+
         dbc=DBConnector.getInstance();
     }
 
@@ -108,12 +109,63 @@ public class DataController {
                     "VALUES(0);";
             stmt.execute(sql);
 
+            sql="INSERT INTO GamesAndTeams (GameID, Team1Name, Team2Name)" +
+                    "VALUES(0,'FC Lidor','FC Amit');";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Games (GameID)" +
+                    "VALUES(12);";
+            stmt.execute(sql);
+
+            sql="INSERT INTO GamesAndTeams (GameID, Team1Name, Team2Name)" +
+                    "VALUES(12,'FC Lidor','FC Amit');";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Teams (Name, Stadium)" +
+                    "VALUES('FC Lidor','Terner');";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Teams (Name, Stadium)" +
+                    "VALUES('FC Amit','Tedi');";
+            stmt.execute(sql);
+
+
         } catch (java.sql.SQLException e) {
             System.out.println("saveTestObjects: ");
             System.out.println(e.toString());
         }
     }
 
+    public boolean CheckPolicy(String gameID, String stadium){
+        //check for this game and get his team 1 - GamesAndTeams table
+        //check for the stadium in this team - Teams table
+        //check if they are equal and return bool result
+        try {
+
+            Connection connection = DBConnector.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
+
+            String sql="SELECT Team1Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
+
+            ResultSet rs=stmt.executeQuery(sql);
+
+            if(rs.next()){
+                String team=rs.getString(1);
+                String sql1="SELECT Stadium FROM Teams WHERE Name='"+team+"';";
+                ResultSet rs1=stmt.executeQuery(sql1);
+                if(rs1.next()){
+                    if(rs1.getString(1).equals(stadium)){
+                        return true;
+                    }
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            System.out.println("CheckPolicy: ");
+            System.out.println(e.toString());
+        }
+        return false;
+
+    }
 
     // check in subscriber table - does we have a instance with such mail in referee table
     public boolean checkExist(Referee ref) {

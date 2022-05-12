@@ -66,4 +66,38 @@ class DomainTest {
 
     }
 
+    @Test
+    @DisplayName("check Games-League creation")
+    void CheckLeagueSize() {
+        League l=new League("A","2021","1");
+        Game g1=new Game(l);
+        Game g2=new Game(l);
+        assertEquals(2,l.getGames().size());
+
+    }
+
+    @Test
+    @DisplayName("check Games-League creation")
+    void CheckRefGameConn() {
+        League l=new League("A","2021","1");
+        Game g1=new Game(l);
+        Date date= new Date();
+        Referee ref = new Referee("yuval","123456","yuval@gmail.com","Israel","0546666666",date,"Running");
+        g1.addReferee(ref);
+        Game g2=new Game(l);
+        g2.addReferee(ref);
+        assertEquals(2,ref.getGames().size());
+
+    }
+    @Test
+    @DisplayName("check Games-League creation")
+    void CheckRefGameConnNull() {
+        League l=new League("A","2021","1");
+        Game g1=new Game(l);
+        Referee ref =null;
+        assertThrows(NullPointerException.class,()->g1.addReferee(ref));
+
+
+    }
+
 }

@@ -21,4 +21,8 @@ public class Referee extends Subscriber {
     public String getTraining() {
         return training;
     }
+
+    public ArrayList<Game> getGames(){
+        return games;
+    }
 }

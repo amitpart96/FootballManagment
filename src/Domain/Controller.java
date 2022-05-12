@@ -27,8 +27,9 @@ public class Controller {
     }
 
     public boolean checkPolicy(String gameID, String stadium) {
+        //one policy for all the games in the current league
+        return DataController.getInstance().CheckPolicy(gameID,stadium);
 
-        return true;
     }
 
     public boolean checkInfo(Referee referee, String gameID, Date date, String stadium) {
