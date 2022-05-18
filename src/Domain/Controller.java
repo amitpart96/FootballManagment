@@ -25,10 +25,22 @@ public class Controller {
     public void saveRefereeData(Referee referee) {
         DataController.getInstance().saveRef(referee);
     }
+    public boolean changeLeaguePolicy(String leagueName,String policy){
+        return DataController.getInstance().changeLeaguePolicy(leagueName,policy);
+    }
+    public String getGamePolicy(String gameID){
+        return DataController.getInstance().getGamePolicy(gameID);
+    }
 
     public boolean checkPolicy(String gameID, String stadium) {
-        //one policy for all the games in the current league
-        return DataController.getInstance().CheckPolicy(gameID,stadium);
+        String policy=getGamePolicy(gameID);
+        if(policy.equals("1")){
+            return DataController.getInstance().CheckPolicyHomeStadium(gameID,stadium);
+        }
+        else if(policy.equals("2")){
+            return DataController.getInstance().CheckPolicyNeutralStadium(gameID,stadium);
+        }
+        return false;
 
     }
 
@@ -48,8 +60,6 @@ public class Controller {
         if(!DataController.getInstance().checkExistGame(gameID)){
             return false;
         }
-        // check stadium - ? maybe in policy?!
-
         return true;
     }
 

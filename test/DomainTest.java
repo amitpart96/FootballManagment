@@ -97,7 +97,36 @@ class DomainTest {
         Referee ref =null;
         assertThrows(NullPointerException.class,()->g1.addReferee(ref));
 
+    }
+
+    @Test
+    @DisplayName("check League policy")
+    void CheckPolicy() {
+        String stadium1="Terner";
+        String stadium2="Tedi";
+        String stadium3="Sami";
+
+        // check on champions league in data base with policy 1 and gameID - '0'
+        assertTrue(controller.checkPolicy("0",stadium1)); // valid by policy 1
+        assertFalse(controller.checkPolicy("0",stadium2)); // not valid by policy 1
+        controller.changeLeaguePolicy("Champions","2"); // change policy to 2
+        assertTrue(controller.checkPolicy("0",stadium3)); //valid by policy 2
+        assertFalse(controller.checkPolicy("0",stadium1)); // what was valid before is now not valid
+        assertFalse(controller.checkPolicy("0",stadium2)); // still not valid even on policy 2
+
 
     }
+    @Test
+    @DisplayName("check game policy before&after change")
+    void getGamePolicyAndChange() {
+        assertEquals("2",DataController.getInstance().getGamePolicy("0"));
+        assertTrue(DataController.getInstance().changeLeaguePolicy("Champions","1"));
+        assertEquals("1",DataController.getInstance().getGamePolicy("0"));
+
+
+
+
+    }
+
 
 }

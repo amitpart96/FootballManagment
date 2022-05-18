@@ -1,6 +1,4 @@
 package Domain;
-import javax.naming.directory.AttributeInUseException;
-import javax.print.AttributeException;
 import java.util.ArrayList;
 import java.util.Date;
 

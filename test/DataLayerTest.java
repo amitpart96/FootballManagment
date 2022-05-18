@@ -92,4 +92,27 @@ public class DataLayerTest {
         assertFalse(DataController.getInstance().saveRef(ref));
     }
 
+    @Test
+    @DisplayName("Check League exist")
+    public void LeagueExist() {
+        assertEquals(true, DataController.getInstance().checkLeagueExist("Euro"));
+    }
+
+    @Test
+    @DisplayName("Check League does not exist")
+    public void LeagueNotExist() {
+        assertEquals(false, DataController.getInstance().checkLeagueExist("LIGAT H`AL"));
+    }
+
+    @Test
+    @DisplayName("Check game policy is according to the league")
+    public void checkGamePolicy() {
+        assertEquals("1", DataController.getInstance().getGamePolicy("1234"));
+        assertEquals("2", DataController.getInstance().getGamePolicy("12"));
+        assertEquals(null, DataController.getInstance().getGamePolicy("33"));
+
+    }
+
+
+
 }

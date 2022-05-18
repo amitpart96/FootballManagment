@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -121,7 +120,7 @@ class ApplicationTest {
 
     @Test
     @DisplayName("Assigment not according to policy")
-    void somethingAboutPolicy(){
+    void checkPolicyGameAssigment(){
         Calendar c1=Calendar.getInstance();
         c1.set(Calendar.MONTH, 1);
         c1.set(Calendar.DATE, 1);
@@ -194,7 +193,7 @@ class ApplicationTest {
         c1.set(Calendar.DATE, 1);
         c1.set(Calendar.YEAR, 2030);
         Date date1 = c1.getTime();
-        assertTrue(application.gameAssignment("12",referee,"Terner",date1));
+        assertTrue(application.gameAssignment("12",referee,"Sami",date1));
     }
 
     @Test

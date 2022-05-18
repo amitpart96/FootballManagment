@@ -12,8 +12,8 @@ public class League {
         this.name = name;
         this.season = season;
         this.policy = policy;
-        games = new ArrayList<>();
-        referees = new ArrayList<>();
+        this.games = new ArrayList<>();
+        this.referees = new ArrayList<>();
     }
 
     public void addGame(Game g){
