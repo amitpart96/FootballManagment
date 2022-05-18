@@ -21,8 +21,17 @@ class ApplicationTest {
         DataController.getInstance().DropAllTables(); //erase all
         DataController.getInstance().CreateTables(); // create tables
         DataController.getInstance().saveTestObjects(); // save test object in the new tables
-    }
 
+    }
+    public Date futureDate(){
+        Calendar c1=Calendar.getInstance();
+        c1.set(Calendar.MONTH, 1);
+        c1.set(Calendar.DATE, 1);
+        c1.set(Calendar.YEAR, 2030);
+        // creating a date object with specified time.
+        return c1.getTime();
+    }
+    //T24
     @Test
     @DisplayName("Should Login")
     void ShouldLogin() {
@@ -30,7 +39,7 @@ class ApplicationTest {
     }
 
 
-
+    //T25
     @Nested
     class ParameterizedTests {
         @DisplayName("Email format is wrong")
@@ -41,21 +50,21 @@ class ApplicationTest {
         }
     }
 
-
+    //T26
     @Test
     @DisplayName("Password format is wrong")
     void PassFormatIsWrong(){
         assertEquals(false, application.login("test1@gmail.com","12345"));
     }
 
-
+    //T27
     @Test
     @DisplayName("Email and password are NULL")
     void EmailAndPasswordAreNULL(){
         assertFalse(application.login("","123456"));
         assertFalse(application.login("maxim@gmail.com",""));
     }
-
+    //T28
     @Test
     @DisplayName("User does not exist in DB")
     void UserDoesNotExistInDB() {
@@ -63,17 +72,11 @@ class ApplicationTest {
     }
 
 
-    //referee registration
-
+    //T29
     @Test
-    @DisplayName("Some Details Are NULL In fillForm")
+    @DisplayName("Some details are NULL In fillForm")
     void SomeDetailsAreNULLInFillForm(){
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-        // creating a date object with specified time.
-        Date date = c1.getTime();
+        Date date = futureDate();
         //date is null
         assertEquals(false, application.fillForm("arnon","123456","test1@gmail.com",
                 "Canada", "0524565643",null,"Main" ));
@@ -85,7 +88,7 @@ class ApplicationTest {
                 "Israel", "0524565643",date,"Main" ));
 
     }
-
+    //T30
     @Test
     @DisplayName("Mail exist in referee registration")
     void MailExist(){
@@ -93,7 +96,7 @@ class ApplicationTest {
         assertEquals(false,application.fillForm("Lidor Avital","111111","test1@gmail.com",
                 "Sudan","0541111111",date,"main"));
     }
-
+    //T31
     @Test
     @DisplayName("Add referee registration")
     void addRefereeRegistration(){
@@ -103,61 +106,40 @@ class ApplicationTest {
     }
 
 
-    //gameAssignment
+    //T32
     @Test
     @DisplayName("referee does not exist")
     void refereeDoesNotExist(){
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-
-        Date date = c1.getTime();
+        Date date = futureDate();
         Referee referee = new Referee("Maxim","123456","maxim@gmail.com","Israel","0546666666",date,"Secondary");
 
         assertFalse(application.gameAssignment("1",referee,"Tedi",date));
     }
-
+    //T33
     @Test
     @DisplayName("Assigment not according to policy")
     void checkPolicyGameAssigment(){
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-
-        // creating a date object with specified time.
-        Date date = c1.getTime();
+        Date date = futureDate();
         Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
                 "Russia","0541111111",date,"main");
 
         assertFalse(application.gameAssignment("0",referee,"Tedi",date));
     }
-
+    //T34
     @Test
     @DisplayName("game assignment success")
     void gameAssignmentSuccess(){
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-
-        // creating a date object with specified time.
-        Date date = c1.getTime();
+        Date date = futureDate();
         Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
                 "Russia","0541111111",date,"main");
 
         assertTrue(application.gameAssignment("0",referee,"Terner",date));
     }
+    //T35
     @Test
     @DisplayName("Some Details Are NULL In Game Assignment")
     void SomeDetailsAreNULLInGameAssignment(){
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-        // creating a date object with specified time.
-        Date date = c1.getTime();
+        Date date = futureDate();
 
         Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
                 "Russia","0541111111",date,"main");
@@ -173,7 +155,7 @@ class ApplicationTest {
 
 
     }
-
+    //T36
     @Test
     @DisplayName("Full System test Success")
     void FullSystemTestSuccess(){
@@ -188,14 +170,10 @@ class ApplicationTest {
 
         Referee referee=new Referee("Noa Avital","111111","Noa@gmail.com",
                 "Yemen","0541111111",date,"Sister");
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-        Date date1 = c1.getTime();
+        Date date1 = futureDate();
         assertTrue(application.gameAssignment("12",referee,"Sami",date1));
     }
-
+    //T37
     @Test
     @DisplayName("Full System test with Failure")
     void FullSystemTestFailure(){
@@ -207,11 +185,7 @@ class ApplicationTest {
 
         Referee referee=new Referee("Noa Avital","111111","Shira@gmail.com",
                 "Yemen","0541111111",date,"Sister");
-        Calendar c1=Calendar.getInstance();
-        c1.set(Calendar.MONTH, 1);
-        c1.set(Calendar.DATE, 1);
-        c1.set(Calendar.YEAR, 2030);
-        Date date1 = c1.getTime();
+        Date date1 = futureDate();
         assertFalse(application.gameAssignment("12",referee,"Terner",date1));
     }
 

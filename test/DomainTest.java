@@ -21,19 +21,19 @@ class DomainTest {
         DataController.getInstance().CreateTables(); // create tables
         DataController.getInstance().saveTestObjects(); // save test object in the new tables
     }
-
+    //T15
     @Test
     @DisplayName("check if mail exist in db")
     void checkMailExist() {
         assertTrue(controller.checkMail("test1@gmail.com"));
     }
-
+    //T16
     @Test
     @DisplayName("check if mail exist in db")
     void checkMailNotExist() {
         assertFalse(controller.checkMail("maxim@gmail.com"));
     }
-
+    //T17
     @Test
     @DisplayName("check Info Before insert Game")
     void checkInfoBeforeInsertGame() {
@@ -56,7 +56,7 @@ class DomainTest {
         assertFalse(controller.checkInfo(referee1,game.getId(),date,"Tedi"));
         assertFalse(controller.checkInfo(referee,"123",date,"Tedi"));
     }
-
+    //T18
     @Test
     @DisplayName("check Mail And Password")
     void checkMailAndPassword() {
@@ -65,7 +65,7 @@ class DomainTest {
         assertFalse(controller.check("maya@gmail.com","111111"));
 
     }
-
+    //T19
     @Test
     @DisplayName("check Games-League creation")
     void CheckLeagueSize() {
@@ -75,7 +75,7 @@ class DomainTest {
         assertEquals(2,l.getGames().size());
 
     }
-
+    //T20
     @Test
     @DisplayName("check Games-League creation")
     void CheckRefGameConn() {
@@ -89,6 +89,7 @@ class DomainTest {
         assertEquals(2,ref.getGames().size());
 
     }
+    //T21
     @Test
     @DisplayName("check Games-League creation")
     void CheckRefGameConnNull() {
@@ -98,7 +99,7 @@ class DomainTest {
         assertThrows(NullPointerException.class,()->g1.addReferee(ref));
 
     }
-
+    //T22
     @Test
     @DisplayName("check League policy")
     void CheckPolicy() {
@@ -116,6 +117,7 @@ class DomainTest {
 
 
     }
+    //T23
     @Test
     @DisplayName("check game policy before&after change")
     void getGamePolicyAndChange() {
