@@ -219,80 +219,6 @@ public class DataController {
 
     }
 
-    public boolean CheckPolicyNeutralStadium(String gameID, String stadium){
-        try {
-
-            Connection connection = DBConnector.getInstance().getConnection();
-            Statement stmt = connection.createStatement();
-
-            String sql="SELECT Team1Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
-
-            ResultSet rs=stmt.executeQuery(sql);
-
-            if(rs.next()) {
-                String team1 = rs.getString(1);
-                String sql1 = "SELECT Stadium FROM Teams WHERE Name='" + team1 + "';";
-                ResultSet rs1 = stmt.executeQuery(sql1);
-                if (rs1.next()) {
-                    if (rs1.getString(1).equals(stadium)) {
-                        return false;
-                    }
-
-
-                }
-            }
-            sql="SELECT Team2Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
-
-            ResultSet rs2=stmt.executeQuery(sql);
-
-            if(rs2.next()) {
-                String team2 = rs2.getString(1);
-                String sql2 = "SELECT Stadium FROM Teams WHERE Name='" + team2 + "';";
-                ResultSet rs3 = stmt.executeQuery(sql2);
-                if (rs3.next()) {
-                    if (rs3.getString(1).equals(stadium)) {
-                        return false;
-                    }
-
-
-                }
-            }
-            return true;
-
-        } catch (java.sql.SQLException e) {
-            System.out.println("CheckPolicyNeutralStadium: ");
-            System.out.println(e.toString());
-        }
-        return false;
-
-    }
-    public boolean CheckPolicyHomeStadium(String gameID, String stadium){
-        try {
-
-            Connection connection = DBConnector.getInstance().getConnection();
-            Statement stmt = connection.createStatement();
-
-            String sql="SELECT Team1Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
-
-            ResultSet rs=stmt.executeQuery(sql);
-
-            if(rs.next()){
-                String team=rs.getString(1);
-                String sql1="SELECT Stadium FROM Teams WHERE Name='"+team+"';";
-                ResultSet rs1=stmt.executeQuery(sql1);
-                if(rs1.next()){
-                    if(rs1.getString(1).equals(stadium)){
-                        return true;
-                    }
-                }
-            }
-        } catch (java.sql.SQLException e) {
-            System.out.println("CheckPolicyHomeStadium: ");
-            System.out.println(e.toString());
-        }
-        return false;
-
-    }
 
     // check in subscriber table - does we have a instance with such mail in referee table
     public boolean checkExist(Referee ref) {
@@ -317,7 +243,7 @@ public class DataController {
 
     }
     // check in subscriber table - does we have a instance with such mail and password
-    public boolean checkExist(String mail, String pass) {
+    public String checkCorrectPassword(String mail) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -326,9 +252,7 @@ public class DataController {
 
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next()){
-                if (rs.getString(1).equals(pass)){
-                    return true;
-                }
+                return rs.getString(1);
             }
 
         }
@@ -336,7 +260,7 @@ public class DataController {
             System.out.println("checkExist password: ");
             System.out.println(e.toString());
         }
-        return false;
+        return null;
     }
     // check in subscriber table - does we have a instance with such mail
     public boolean checkExist(String mail) {
@@ -500,5 +424,36 @@ public class DataController {
         }
 
 
+    public String getTeamStadium(String gameID,int op) {
+        try {
+
+            Connection connection = DBConnector.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
+            String sql;
+            if(op==1){
+                 sql="SELECT Team1Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
+            }
+            else{
+                 sql="SELECT Team2Name FROM GamesAndTeams WHERE GameID='"+gameID+"';";
+
+            }
+
+            ResultSet rs=stmt.executeQuery(sql);
+
+            if(rs.next()){
+                String team=rs.getString(1);
+                String sql1="SELECT Stadium FROM Teams WHERE Name='"+team+"';";
+                ResultSet rs1=stmt.executeQuery(sql1);
+                if(rs1.next()){
+                    return rs1.getString(1);
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            System.out.println("checkTeam1Stadium: ");
+            System.out.println(e.toString());
+        }
+        return null;
+
+    }
 
 }

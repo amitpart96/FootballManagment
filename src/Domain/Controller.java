@@ -4,8 +4,10 @@ import java.util.Date;
 
 import Data.DataController;
 public class Controller {
+
     public boolean check (String mail, String pass){
-        return DataController.getInstance().checkExist(mail,pass);
+        String password=DataController.getInstance().checkCorrectPassword(mail);
+        return pass.equals(password);
     }
 
     public void setLogin(String mail){
@@ -35,10 +37,18 @@ public class Controller {
     public boolean checkPolicy(String gameID, String stadium) {
         String policy=getGamePolicy(gameID);
         if(policy.equals("1")){
-            return DataController.getInstance().CheckPolicyHomeStadium(gameID,stadium);
+            String s1=DataController.getInstance().getTeamStadium(gameID,1);
+            return stadium.equals(s1);
         }
         else if(policy.equals("2")){
-            return DataController.getInstance().CheckPolicyNeutralStadium(gameID,stadium);
+            String s1=DataController.getInstance().getTeamStadium(gameID,1);
+            String s2=DataController.getInstance().getTeamStadium(gameID,2);
+            if(stadium.equals(s1)|| stadium.equals(s2)){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
         return false;
 

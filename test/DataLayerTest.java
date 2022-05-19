@@ -32,13 +32,13 @@ public class DataLayerTest {
     @Test
     @DisplayName("Check user password")
     public void CorrectPassword() {
-        assertEquals(true, DataController.getInstance().checkExist("test1@gmail.com","123456"));
+        assertEquals("123456", DataController.getInstance().checkCorrectPassword("test1@gmail.com"));
     }
     //T4
     @Test
-    @DisplayName("Check user wrong password")
+    @DisplayName("Check password for non-registered user")
     public void WrongPassword() {
-        assertEquals(false, DataController.getInstance().checkExist("test1@gmail.com","1234567"));
+        assertEquals(null, DataController.getInstance().checkCorrectPassword("test2@gmail.com"));
     }
     //T5
     @Test
