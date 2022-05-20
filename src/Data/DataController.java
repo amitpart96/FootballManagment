@@ -9,19 +9,31 @@ public class DataController {
     private static final DataController instance = null;
     private DBConnector dbc;
 
+    /**
+     * Private constructor
+     *
+     */
     private DataController(){
 
         dbc=DBConnector.getInstance();
     }
 
-    //private constructor to avoid client applications to use constructor
+    /**
+     * Get instance
+     * creates DataController in not created yet
+     *
+     * @return DataController objcet
+     */
     public static DataController getInstance(){
         if (instance==null)
             return new DataController();
         return instance;
     }
 
-
+    /**
+     * Creating DB tables
+     *
+     */
     public void CreateTables(){
         try {
             Connection connection = DBConnector.getInstance().getConnection();
@@ -94,15 +106,18 @@ public class DataController {
             System.out.println(e.toString());
         }
     }
-
+    /**
+     * Saving default object to DB for tests
+     *
+     */
     public void saveTestObjects(){
         try {
 
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
             String sql="";
-            sql="INSERT INTO Subscribers (Mail,Password)" +
-                    "VALUES('test1@gmail.com','123456');";
+            sql="INSERT INTO Subscribers (Mail,Password,LoggedIn)" +
+                    "VALUES('test1@gmail.com','123456','false');";
             stmt.execute(sql);
 
             sql="INSERT INTO Referees (Mail,training)" +
@@ -151,6 +166,12 @@ public class DataController {
             System.out.println(e.toString());
         }
     }
+
+    /**
+     * Get the game policy by its league policy from the DB
+     *
+     * @return String - the policy of the league that the game is set on
+     */
     public String getGamePolicy(String gameID){
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -177,6 +198,12 @@ public class DataController {
         return null;
     }
 
+    /**
+     * Check if there is a league in the DB with this name
+     *
+     * @param: String - leagueName - the name of the league we are searching for
+     * @return boolean - is the league exist in the DB
+     */
     public boolean checkLeagueExist(String leagueName){
         try {
 
@@ -197,6 +224,15 @@ public class DataController {
         }
         return false;
     }
+
+    /**
+     * Changes the league policy
+     *
+     * @param : String leagueName - the name of the league we want to change the policy
+     * @param : String policy - the policy we want to save
+     *
+     * @return boolean - is the change completed
+     */
     public boolean changeLeaguePolicy(String leagueName, String policy){
         try {
             if(!checkLeagueExist(leagueName)){
@@ -219,8 +255,12 @@ public class DataController {
 
     }
 
-
-    // check in subscriber table - does we have a instance with such mail in referee table
+    /**
+     * Check if there is a referee in the DB with this details
+     *
+     * @param: Referee - the referee we want to check
+     * @return boolean - is the referee exist in the DB
+     */
     public boolean checkExist(Referee ref) {
         try {
 
@@ -242,7 +282,12 @@ public class DataController {
         return false;
 
     }
-    // check in subscriber table - does we have a instance with such mail and password
+    /**
+     * Gets the user password from the DB
+     *
+     * @param: String - mail - the name of the user we are searching for his password
+     * @return String - users password as its saved in the DB during registration
+     */
     public String checkCorrectPassword(String mail) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -262,7 +307,12 @@ public class DataController {
         }
         return null;
     }
-    // check in subscriber table - does we have a instance with such mail
+    /**
+     * Check if there is a user in the DB with this mail
+     *
+     * @param: String - mail - the mail of the user we are searching for
+     * @return boolean - is the user exist in the DB
+     */
     public boolean checkExist(String mail) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -283,26 +333,40 @@ public class DataController {
         return false;
     }
 
-    // taking the subscriber from the table and update his loggedIn to true
-    public void loggedIn(String mail) {
+    /**
+     * Sets the loggedIn status of the user with the inserted mail to true if exist
+     *
+     * @param: String - mail - the mail of the user we are want to login
+     * @return boolean - is the operation complete
+     */
+    public boolean loggedIn(String mail) {
         try{
-            Connection connection = DBConnector.getInstance().getConnection();
-            Statement stmt = connection.createStatement();
+            if(checkExist(mail)) {
+                Connection connection = DBConnector.getInstance().getConnection();
+                Statement stmt = connection.createStatement();
 
-            String sql = "UPDATE Subscribers SET LoggedIn='true' WHERE Mail='" + mail + "';";
 
-           stmt.execute(sql);
+                String sql = "UPDATE Subscribers SET LoggedIn='true' WHERE Mail='" + mail + "';";
+
+                stmt.execute(sql);
+                return true;
+            }
 
         }
         catch (java.sql.SQLException e) {
             System.out.println("loggedIn: ");
             System.out.println(e.toString());
         }
+        return false;
 
     }
 
-
-    //save referee object in data base
+    /**
+     * Saves a new referee at the DB
+     *
+     * @param: Referee - referee - the referee we want to save
+     * @return boolean - is the operation complete
+     */
     public boolean saveRef(Referee referee) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -328,7 +392,12 @@ public class DataController {
         return false;
 
     }
-    // check in games table - does we have a instance with such id
+    /**
+     * Check if there is a game in the DB with given id
+     *
+     * @param: String - gameID - the id of the game we are searching for
+     * @return boolean - is the game exist in the DB
+     */
     public boolean checkExistGame(String gameID) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -348,7 +417,15 @@ public class DataController {
         }
         return false;
     }
-    //update the game record with date and stadium
+
+    /**
+     * Updates the games table of the game with given gameID
+     *
+     * @param: String - gameID - the id of the game we want to update
+     * @param: Date - date - game date
+     * @param: String - stadium - game stadium
+     * @return boolean - is the operation completed
+     */
     public boolean updateGame(String gameID, Date date, String stadium) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -369,7 +446,13 @@ public class DataController {
         return false;
     }
 
-    //insert to game-ref table
+    /**
+     * Updates the games-refs table of the game with given gameID
+     *
+     * @param: String - gameID - the id of the game we want to update
+     * @param: Referee - referee - the referee assigned to this game
+     * @return boolean - is the operation completed
+     */
     public boolean updateGameRef(String gameID, Referee referee) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
@@ -389,6 +472,10 @@ public class DataController {
         return false;
     }
 
+    /**
+     * Delete all tables from the DB
+     *
+     */
     public void DropAllTables() {
         try {
             Connection connection = DBConnector.getInstance().getConnection();
@@ -423,7 +510,13 @@ public class DataController {
 
         }
 
-
+    /**
+     * Gets the stadium of the teams in a game with the given id
+     *
+     * @param: String - gameID - the id of the game we are searching for
+     * @param: Int op - the operation we want to do - 1 for team1 stadium , 2 for team2 stadium
+     * @return String - the stadium of the team we want in this game
+     */
     public String getTeamStadium(String gameID,int op) {
         try {
 
@@ -455,5 +548,30 @@ public class DataController {
         return null;
 
     }
+    /**
+     * Gets the login status of a user with given mail in the DB
+     *
+     * @param: String - mail - the mail of the user we are searching for
+     * @return boolean - login status of the user
+     */
+    public boolean getLoginStatus(String mail) {
+        try{
+            Connection connection = DBConnector.getInstance().getConnection();
+            Statement stmt = connection.createStatement();
 
+            String sql = "SELECT LoggedIn FROM Subscribers WHERE Mail='" + mail + "';";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getString(1).equals("true");
+            }
+
+        }
+        catch (java.sql.SQLException e) {
+            System.out.println("checkExist password: ");
+            System.out.println(e.toString());
+        }
+        return false;
+
+    }
 }

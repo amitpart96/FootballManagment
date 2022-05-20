@@ -111,6 +111,10 @@ public class DataLayerTest {
         assertEquals("1", DataController.getInstance().getGamePolicy("1234"));
         assertEquals("2", DataController.getInstance().getGamePolicy("12"));
         assertEquals(null, DataController.getInstance().getGamePolicy("33"));
+        assertEquals("1",DataController.getInstance().getGamePolicy("0"));
+        assertTrue(DataController.getInstance().changeLeaguePolicy("Champions","2"));
+        assertEquals("2",DataController.getInstance().getGamePolicy("0"));
+
 
     }
 

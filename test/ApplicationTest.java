@@ -108,7 +108,7 @@ class ApplicationTest {
 
     //T32
     @Test
-    @DisplayName("referee does not exist")
+    @DisplayName("Game assigment - no such referee")
     void refereeDoesNotExist(){
         Date date = futureDate();
         Referee referee = new Referee("Maxim","123456","maxim@gmail.com","Israel","0546666666",date,"Secondary");
@@ -117,7 +117,7 @@ class ApplicationTest {
     }
     //T33
     @Test
-    @DisplayName("Assigment not according to policy")
+    @DisplayName("Game assigment - not according to policy")
     void checkPolicyGameAssigment(){
         Date date = futureDate();
         Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
@@ -137,8 +137,8 @@ class ApplicationTest {
     }
     //T35
     @Test
-    @DisplayName("Some Details Are NULL In Game Assignment")
-    void SomeDetailsAreNULLInGameAssignment(){
+    @DisplayName("Game assigment - null details")
+    void DetailsAreNULLInGameAssignment(){
         Date date = futureDate();
 
         Referee referee = new Referee("yuval Avital","111111","yuval@gmail.com",
@@ -188,5 +188,6 @@ class ApplicationTest {
         Date date1 = futureDate();
         assertFalse(application.gameAssignment("12",referee,"Terner",date1));
     }
+
 
 }

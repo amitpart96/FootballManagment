@@ -119,11 +119,14 @@ class DomainTest {
     }
     //T23
     @Test
-    @DisplayName("check game policy before&after change")
-    void getGamePolicyAndChange() {
-        assertEquals("2",DataController.getInstance().getGamePolicy("0"));
-        assertTrue(DataController.getInstance().changeLeaguePolicy("Champions","1"));
-        assertEquals("1",DataController.getInstance().getGamePolicy("0"));
+    @DisplayName("check login status before and after login")
+    void subscriberLogin() {
+        assertFalse(controller.checkLoginStatus("test1@gmail.com"));
+        controller.setLogin("test1@gmail.com");
+        assertTrue(controller.checkLoginStatus("test1@gmail.com"));
+        assertEquals(false,controller.setLogin("test2@gmail.com"));
+
+
 
 
 
