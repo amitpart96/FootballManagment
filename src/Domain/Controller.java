@@ -13,8 +13,14 @@ public class Controller {
      * @return boolean - is the password correct
      */
     public boolean check (String mail, String pass){
-        String password=DataController.getInstance().getPassword(mail);
-        return pass.equals(password);
+        if(checkMail(mail)){
+            String password=DataController.getInstance().getPassword(mail);
+            return pass.equals(password);
+        }
+        else{
+            return false;
+        }
+
     }
 
     /**

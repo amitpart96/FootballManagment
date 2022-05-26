@@ -35,18 +35,19 @@ class DomainTest {
     }
     //T17
     @Test
-    @DisplayName("check Info Before insert Game")
-    void checkInfoBeforeInsertGame() {
+    @DisplayName("check Info Before update Game")
+    void checkInfoBeforeUpdateGame() {
         Calendar c1=Calendar.getInstance();
+
         c1.set(Calendar.MONTH, 1);
         c1.set(Calendar.DATE, 1);
         c1.set(Calendar.YEAR, 2030);
 
-        // creating a date object with specified time.
         Date date = c1.getTime();
-        c1.set(Calendar.YEAR, 2000);
 
+        c1.set(Calendar.YEAR, 2000);
         Date date2=c1.getTime();
+
         Game game = new Game(new League("A","2021","1"));
         Referee referee= controller.createReferee("yuv","123456","yuv@gmail.com","Israel","0546666666",date,"Running");
         controller.saveRefereeData(referee);
