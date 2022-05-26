@@ -132,8 +132,16 @@ public class DataController {
                     "VALUES('Euro','2');";
             stmt.execute(sql);
 
+            sql="INSERT INTO Leagues (LeagueName,Policy)" +
+                    "VALUES('Mondial','3');";
+            stmt.execute(sql);
+
             sql="INSERT INTO Games (GameID,League)" +
                 "VALUES(1234,'Champions');";
+            stmt.execute(sql);
+
+            sql="INSERT INTO Games (GameID,League)" +
+                    "VALUES(11111,'Mondial');";
             stmt.execute(sql);
 
             sql="INSERT INTO Games (GameID,League)" +
@@ -288,7 +296,7 @@ public class DataController {
      * @param: String - mail - the name of the user we are searching for his password
      * @return String - users password as its saved in the DB during registration
      */
-    public String checkCorrectPassword(String mail) {
+    public String getPassword(String mail) {
         try{
             Connection connection = DBConnector.getInstance().getConnection();
             Statement stmt = connection.createStatement();
@@ -428,15 +436,18 @@ public class DataController {
      */
     public boolean updateGame(String gameID, Date date, String stadium) {
         try{
-            Connection connection = DBConnector.getInstance().getConnection();
-            Statement stmt = connection.createStatement();
+            if(checkExistGame(gameID)){
+                Connection connection = DBConnector.getInstance().getConnection();
+                Statement stmt = connection.createStatement();
 
-            String sql = "UPDATE Games " +
-                    "SET Stadium='"+stadium+"'" +
-                    "WHERE GameID='" + gameID + "';";
+                String sql = "UPDATE Games " +
+                        "SET Stadium='"+stadium+"'" +
+                        "WHERE GameID='" + gameID + "';";
 
-            stmt.execute(sql);
-            return true;
+                stmt.execute(sql);
+                return true;
+            }
+
 
         }
         catch (java.sql.SQLException e) {
@@ -568,7 +579,7 @@ public class DataController {
 
         }
         catch (java.sql.SQLException e) {
-            System.out.println("checkExist password: ");
+            System.out.println("getLoginStatus: ");
             System.out.println(e.toString());
         }
         return false;

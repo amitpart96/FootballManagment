@@ -48,13 +48,18 @@ class DomainTest {
 
         Date date2=c1.getTime();
         Game game = new Game(new League("A","2021","1"));
-        Referee referee = new Referee("yuval","123456","yuval@gmail.com","Israel","0546666666",date,"Running");
-        Referee referee1 = new Referee("Maya","654321","maya@gmail.com","Israel","0546666666",date,"Main");
+        Referee referee= controller.createReferee("yuv","123456","yuv@gmail.com","Israel","0546666666",date,"Running");
+        controller.saveRefereeData(referee);
+        Referee referee1 = controller.createReferee("Maya","654321","maya@gmail.com","Israel","0546666666",date,"Main");
 
         assertTrue(controller.checkInfo(referee,game.getId(),date,"Tedi"));
         assertFalse(controller.checkInfo(referee,game.getId(),date2,"Tedi"));
+        assertFalse(controller.checkInfo(referee,game.getId(),date2,""));
         assertFalse(controller.checkInfo(referee1,game.getId(),date,"Tedi"));
         assertFalse(controller.checkInfo(referee,"123",date,"Tedi"));
+        assertTrue(controller.updateGame(referee,"0",date,"Tedi"));
+        assertFalse(controller.updateGame(referee,"123",date,"Tedi"));
+
     }
     //T18
     @Test
@@ -114,6 +119,8 @@ class DomainTest {
         assertTrue(controller.checkPolicy("0",stadium3)); //valid by policy 2
         assertFalse(controller.checkPolicy("0",stadium1)); // what was valid before is now not valid
         assertFalse(controller.checkPolicy("0",stadium2)); // still not valid even on policy 2
+        assertFalse(controller.checkPolicy("11111",stadium2));
+
 
 
     }

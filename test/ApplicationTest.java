@@ -74,7 +74,7 @@ class ApplicationTest {
 
     //T29
     @Test
-    @DisplayName("Some details are NULL In fillForm")
+    @DisplayName("Some details are not according to form rules")
     void SomeDetailsAreNULLInFillForm(){
         Date date = futureDate();
         //date is null
@@ -86,7 +86,12 @@ class ApplicationTest {
         //full name  is null
         assertEquals(false, application.fillForm("","123456","test1@gmail.com",
                 "Israel", "0524565643",date,"Main" ));
-
+        assertEquals(false, application.fillForm("arnon","12345","test1@gmail.com",
+                "Israel", "0524565643",date,"Main" ));
+        assertEquals(false, application.fillForm("arnon","123456","test1gmail.com",
+                "Israel", "0524565643",date,"Main" ));
+        assertEquals(false, application.fillForm("arnon","123456","test1@gmail.com",
+                "Israel", "0524565643",date,"Main" ));
     }
     //T30
     @Test

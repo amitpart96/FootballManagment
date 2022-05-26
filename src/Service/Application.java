@@ -24,7 +24,9 @@ public class Application {
         if (!controller.check(mail,pass)){
             return false;
         }
-        return controller.setLogin(mail);
+        controller.setLogin(mail);
+        return controller.checkLoginStatus(mail);
+
     }
 
 
@@ -85,9 +87,6 @@ public class Application {
         if (dateOfBirth.after(dateToday)){
             return false;
         }
-        if (phoneNumber.length() < 10){
-            return false;
-        }
         return true;
     }
     /**
@@ -129,7 +128,6 @@ public class Application {
         if (!controller.checkPolicy(gameID, stadium)){
             return false;
         }
-        controller.updateGame(referee, gameID, date, stadium);
-        return true;
+        return controller.updateGame(referee, gameID, date, stadium);
     }
 }

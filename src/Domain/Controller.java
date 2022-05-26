@@ -13,7 +13,7 @@ public class Controller {
      * @return boolean - is the password correct
      */
     public boolean check (String mail, String pass){
-        String password=DataController.getInstance().checkCorrectPassword(mail);
+        String password=DataController.getInstance().getPassword(mail);
         return pass.equals(password);
     }
 
@@ -88,11 +88,11 @@ public class Controller {
      */
     public boolean checkPolicy(String gameID, String stadium) {
         String policy=getGamePolicy(gameID);
-        if(policy.equals("1")){
+        if(policy.equals("1")){ //team 1 home stadium - host
             String s1=DataController.getInstance().getTeamStadium(gameID,1);
             return stadium.equals(s1);
         }
-        else if(policy.equals("2")){
+        else if(policy.equals("2")){  //none of the teams stadium - neutral
             String s1=DataController.getInstance().getTeamStadium(gameID,1);
             String s2=DataController.getInstance().getTeamStadium(gameID,2);
             if(stadium.equals(s1)|| stadium.equals(s2)){
@@ -140,12 +140,14 @@ public class Controller {
      * @param: String - stadium - the game stadium
      * @param: Referee - referee - the game referee
      * @param: Date - date - the game date
+     * @return boolean - does the operation complete as expected
      */
-    public void updateGame(Referee referee, String gameID, Date date, String stadium) {
-        //call DBController to update game fields in the DB
-        DataController.getInstance().updateGame(gameID,date,stadium);
-        //call DBController to update ref-game table
-        DataController.getInstance().updateGameRef(gameID,referee);
+    public boolean updateGame(Referee referee, String gameID, Date date, String stadium) {
+        if(!DataController.getInstance().updateGame(gameID,date,stadium) || ! DataController.getInstance().updateGameRef(gameID,referee)){
+            return false;
+        }
+        return true;
+
 
     }
     /**

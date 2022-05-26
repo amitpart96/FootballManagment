@@ -32,13 +32,13 @@ public class DataLayerTest {
     @Test
     @DisplayName("Check user password")
     public void CorrectPassword() {
-        assertEquals("123456", DataController.getInstance().checkCorrectPassword("test1@gmail.com"));
+        assertEquals("123456", DataController.getInstance().getPassword("test1@gmail.com"));
     }
     //T4
     @Test
     @DisplayName("Check password for non-registered user")
     public void WrongPassword() {
-        assertEquals(null, DataController.getInstance().checkCorrectPassword("test2@gmail.com"));
+        assertEquals(null, DataController.getInstance().getPassword("test2@gmail.com"));
     }
     //T5
     @Test
@@ -111,6 +111,8 @@ public class DataLayerTest {
         assertEquals("1", DataController.getInstance().getGamePolicy("1234"));
         assertEquals("2", DataController.getInstance().getGamePolicy("12"));
         assertEquals(null, DataController.getInstance().getGamePolicy("33"));
+
+        //check that the policy change is applied
         assertEquals("1",DataController.getInstance().getGamePolicy("0"));
         assertTrue(DataController.getInstance().changeLeaguePolicy("Champions","2"));
         assertEquals("2",DataController.getInstance().getGamePolicy("0"));
